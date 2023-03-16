@@ -1,0 +1,20 @@
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  <h6 class="border-bottom border-gray pb-2 mb-0">Projects</h6>
+  <% if @projects.any? %>
+    <% @projects.each do |project| %>
+      <%= link_to project_path(project.id) do %>
+        <div class="media text-muted pt-3">
+          <h1 class="d-block text-gray-dark">
+            <h1 class="card-title"><%= project.title %></h1>
+          </h1>
+        </div>
+      <% end %>
+      <div class="card-body">
+        <h3><strong> Description: <%= project.description %></strong></h3>
+        <p><h5> Status: <%= project.status %></h5></p>
+      </div>
+    <% end %>
+  <% else %>
+    <p>There are no projects to show</p>
+  <% end %>
+</div>

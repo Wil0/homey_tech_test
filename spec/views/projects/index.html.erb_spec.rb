@@ -1,5 +1,26 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe "projects/index.html.erb", type: :view do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe 'projects/index', type: :view do
+  before(:each) do
+    assign(:projects, [
+             Project.create!(
+               title: 'Project Y',
+               description: 'A new Secret Project'
+             ),
+             Project.create!(
+               title: 'Project Z',
+               description: 'Top Secret'
+             )
+           ])
+  end
+
+  it 'renders a list of projects' do
+    render
+
+    expect(rendered).to match(/Projects/)
+    expect(rendered).to include('Project Y')
+    expect(rendered).to include('Project Z')
+    expect(rendered).to include('Description: A new Secret Project')
+    expect(rendered).to include('Description: Top Secret')
+  end
 end
