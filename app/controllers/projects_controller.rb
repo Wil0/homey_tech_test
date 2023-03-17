@@ -5,11 +5,12 @@ class ProjectsController < ApplicationController
   before_action :current_user, only: %i[show]
 
   def index
-    @projects = Project.all
+    @projects = Project.page(params[:page]).order('created_at DESC')
   end
 
   def show
     @comment = @user.comments.build
+    @comments = @project.comments.page(params[:page]).order('created_at DESC')
   end
 
   private
