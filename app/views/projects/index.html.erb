@@ -1,11 +1,11 @@
 <div class="my-3 p-3 bg-white rounded shadow-sm">
-  <h6 class="border-bottom border-gray pb-2 mb-0">Projects</h6>
+  <h1 class="border-bottom border-gray pb-2 mb-0">Projects</h1>
   <% if @projects.any? %>
     <% @projects.each do |project| %>
       <%= link_to project_path(project.id) do %>
         <div class="media text-muted pt-3">
           <h1 class="d-block text-gray-dark">
-            <h1 class="card-title"><%= project.title %></h1>
+            <h3 class="card-title"><%= project.title %></h3>
           </h1>
         </div>
       <% end %>

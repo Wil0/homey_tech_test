@@ -28,7 +28,7 @@ RSpec.describe Project, type: :model do
   describe 'validations' do
     context 'project does not exist' do
       it 'creates the Project' do
-        new_project = Project.new(title: 'A project')
+        new_project = Project.new(title: 'A project', status: 'To Do')
 
         expect(new_project).to be_valid
         expect { new_project.save! }.to change(Project, :count).by(1)
@@ -45,10 +45,28 @@ RSpec.describe Project, type: :model do
 
     context 'project has no title' do
       it 'does not create the Project with the same first name and last name' do
-        new_project = Project.new
+        new_project = Project.new(status: 'To Do')
 
         expect(new_project).not_to be_valid
         expect(new_project.errors.messages).to eq({ title: ["can't be blank"] })
+      end
+    end
+
+    context 'project has no status' do
+      it 'does not create the Project with the same first name and last name' do
+        new_project = Project.new(title: 'A project')
+
+        expect(new_project).not_to be_valid
+        expect(new_project.errors.messages[:status]).to include("can't be blank")
+      end
+    end
+
+    context 'project has only accepeted status' do
+      it 'does not create the Project with the same first name and last name' do
+        new_project = Project.new(title: 'A project', status: 'Invalid')
+
+        expect(new_project).not_to be_valid
+        expect(new_project.errors.messages).to eq({ status: ['is not included in the list'] })
       end
     end
   end

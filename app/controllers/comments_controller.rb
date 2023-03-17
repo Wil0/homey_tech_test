@@ -6,6 +6,12 @@ class CommentsController < ApplicationController
 
   def create
     message_body = message_params.fetch(:body, nil)
+
+    if message_params.include?(:status)
+      @project.update!(message_params)
+      message_body = "Status changed to #{message_params.fetch(:status, nil)}"
+    end
+
     @comment = @user.comments.build(body: message_body, user: @user)
 
     if @comment.save
@@ -13,11 +19,15 @@ class CommentsController < ApplicationController
     else
       flash[:alert] = 'Comment cannot be empty.'
     end
-    redirect_to project_comments_path(@project)
+    redirect_to project_path(@project)
   end
 
+  private
+
   def message_params
-    params.require(:comment).permit(:body)
+    return params.require(:comment).permit(:body) unless params[:project]
+
+    params.require(:project).permit(:status)
   end
 
   def current_user
@@ -26,5 +36,12 @@ class CommentsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:project_id])
+  end
+
+  rescue_from ActiveRecord::RecordInvalid, with: :not_activated
+
+  def not_activated
+    flash[:alert] = 'Invalid status'
+    redirect_to project_path(@project)
   end
 end

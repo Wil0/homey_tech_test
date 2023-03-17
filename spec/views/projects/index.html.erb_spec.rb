@@ -5,11 +5,13 @@ RSpec.describe 'projects/index', type: :view do
     assign(:projects, [
              Project.create!(
                title: 'Project Y',
-               description: 'A new Secret Project'
+               description: 'A new Secret Project',
+               status: Project::STATUSES.first
              ),
              Project.create!(
                title: 'Project Z',
-               description: 'Top Secret'
+               description: 'Top Secret',
+               status: Project::STATUSES.first
              )
            ])
   end

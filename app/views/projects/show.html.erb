@@ -4,12 +4,20 @@
     <% if @project.description %>
       <p><%= @project.description %></p>
     <% end %>
-    <h5>Status: <%= @project.status %></h5>
+
+    <%= form_for @project, url: project_comments_path(@project), method: :post  do |f| %>
+      <div class=’form-group’>
+        <%= f.label "Status:" %>
+        <%= f.select :status, Project::STATUSES, {}, { onchange: 'this.form.submit()' } %>
+      </div>
+    <% end %>
+
 
   </div>
   <% @project.comments.each do |comment| %>
     <div class="card-body border rounded">
-      <h5 class="card-title "><%= comment.body %> @ <%= comment.created_at.strftime("%H:%M") %></h5>
+      <h5 class="card-title "><%= comment.body %></h5>
+      <h6>@ <%= comment.created_at.strftime("%H:%M") %></h6>
       <br>
     </div>
   <% end %>

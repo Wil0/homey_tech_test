@@ -8,7 +8,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-project = Project.create(title: 'Project X', status: 'To Do', description: 'A new Secret Project')
-user = User.create(first_name: 'Jon', last_name: 'Bovi')
+project = Project.create!(title: 'Project X', status: 'To Do', description: 'A new Secret Project')
+user = User.create!(first_name: 'Jon', last_name: 'Bovi')
 project.users << user
-Comment.create(body: 'Gather all inforamtion needed to proceed', user_id: user.id)
+Comment.create!(body: 'Gather all inforamtion needed to proceed', user_id: user.id)
