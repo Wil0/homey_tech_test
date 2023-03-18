@@ -5,20 +5,11 @@ class CommentsController < ApplicationController
   before_action :set_project, only: %i[create]
 
   def create
-    message_body = message_params.fetch(:body, nil)
-
-    if message_params.include?(:status)
-      @project.update!(message_params)
-      message_body = "Status changed to #{message_params.fetch(:status, nil)}"
-    end
-
-    @comment = @user.comments.build(body: message_body, user: @user)
-
-    if @comment.save
-      flash[:notice] = "Comment '#{message_body}' successfully sent."
-    else
-      flash[:alert] = 'Comment cannot be empty.'
-    end
+    @comment = CommentCreateService.new(@project, @user, message_params).run
+    flash[:notice] = 'Comment successfully sent.'
+    redirect_to project_path(@project)
+  rescue ProjectNotUpdatedError, NoCommentBodyError
+    flash[:alert] = 'Your message has not beeen sent, please contact support.'
     redirect_to project_path(@project)
   end
 
@@ -36,12 +27,5 @@ class CommentsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:project_id])
-  end
-
-  rescue_from ActiveRecord::RecordInvalid, with: :not_activated
-
-  def not_activated
-    flash[:alert] = 'Invalid status'
-    redirect_to project_path(@project)
   end
 end

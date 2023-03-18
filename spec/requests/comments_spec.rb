@@ -16,7 +16,7 @@ RSpec.describe 'Comments', type: :request do
           end.to change(Comment, :count).by(1)
 
           expect(response).to redirect_to(project_path(project))
-          expect(flash[:notice]).to eq "Comment 'I will do this' successfully sent."
+          expect(flash[:notice]).to eq 'Comment successfully sent.'
         end
       end
 
@@ -30,7 +30,7 @@ RSpec.describe 'Comments', type: :request do
           end.to change(Comment, :count).by(1)
 
           expect(response).to redirect_to(project_path(project))
-          expect(flash[:notice]).to eq "Comment 'Status changed to In Progress' successfully sent."
+          expect(flash[:notice]).to eq 'Comment successfully sent.'
         end
       end
     end
@@ -45,7 +45,7 @@ RSpec.describe 'Comments', type: :request do
           end.not_to change(Comment, :count)
 
           expect(response).to redirect_to(project_path(project))
-          expect(flash[:alert]).to eq 'Comment cannot be empty.'
+          expect(flash[:alert]).to eq 'Your message has not beeen sent, please contact support.'
         end
       end
 
@@ -58,7 +58,7 @@ RSpec.describe 'Comments', type: :request do
           end.not_to change(Comment, :count)
 
           expect(response).to redirect_to(project_path(project))
-          expect(flash[:alert]).to eq 'Invalid status'
+          expect(flash[:alert]).to eq 'Your message has not beeen sent, please contact support.'
         end
       end
     end
